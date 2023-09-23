@@ -91,6 +91,7 @@ int main(int argc, char **argv){
     DrawRow(trPageResult);
     struct TextRow trAllResult = NewButton("Cala Suma: ",WWCENTER - (WROW / 2) + ((WBUT * 2)+35),(iPosyLast + HROW + 20),WBUT,HBUT);
     DrawRow(trAllResult);
+    DrawText("0/0", WWCENTER - (MeasureText("0/0",20) / 2), iPosyLast + HROW + 20 + HBUT + 10, 20, BLACK);
 
     EndDrawing();
 
