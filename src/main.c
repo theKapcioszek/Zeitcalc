@@ -19,7 +19,7 @@
 
 #define MAX_STRING_LENGTH 10
 
-struct TextRow{
+typedef struct {
 
   int posx;
   int posy;
@@ -30,10 +30,10 @@ struct TextRow{
   char *text;
   char *date;
 
-};
+} TextRow;
 
-struct TextRow NewTextRow(char *date,char *text, int posx, int posy){
-  struct TextRow row;
+TextRow NewTextRow(char *date,char *text, int posx, int posy){
+  TextRow row;
   row.posx = posx;
   row.posy = posy;
   row.width = WROW;
@@ -46,8 +46,8 @@ struct TextRow NewTextRow(char *date,char *text, int posx, int posy){
   return row;
 }
 
-struct TextRow NewButton(char *text, int posx, int posy, int width, int height){
-  struct TextRow button;
+TextRow NewButton(char *text, int posx, int posy, int width, int height){
+  TextRow button;
   button.posx = posx;
   button.posy = posy;
   button.width = width;
@@ -60,7 +60,7 @@ struct TextRow NewButton(char *text, int posx, int posy, int width, int height){
   return button;
 }
 
-void DrawRow(struct TextRow row, char* text,int fontSize){
+void DrawRow(TextRow row, char* text,int fontSize){
 
   DrawRectangle(row.posx, row.posy, row.width, row.height, LIGHTGRAY);
   if(row.width != WROW){
@@ -92,7 +92,7 @@ int main(int argc, char **argv){
     int iPosyLast = iPosyStart;
     for (int i = 1; i <= 10; i++){
 
-      struct TextRow trTestMulti = NewTextRow("25.09.2023","test",WWCENTER - (WROW / 2),(iPosyLast + HROW + 10));
+      TextRow trTestMulti = NewTextRow("25.09.2023","test",WWCENTER - (WROW / 2),(iPosyLast + HROW + 10));
 
       char *chpCombinedText;
       chpCombinedText = malloc(strlen(trTestMulti.date)+2+strlen(trTestMulti.text)+1);
@@ -107,13 +107,13 @@ int main(int argc, char **argv){
 
     }
 
-    struct TextRow trBackButton = NewButton("<",WWCENTER - (WROW / 2) - (WBUT + 10),(iPosyLast + HROW + 20),WBUT,HBUT);
+    TextRow trBackButton = NewButton("<",WWCENTER - (WROW / 2) - (WBUT + 10),(iPosyLast + HROW + 20),WBUT,HBUT);
     DrawRow(trBackButton,NULL,40);
-    struct TextRow trForwardButton = NewButton(">",WWCENTER - (WROW / 2),(iPosyLast + HROW + 20),WBUT,HBUT);
+    TextRow trForwardButton = NewButton(">",WWCENTER - (WROW / 2),(iPosyLast + HROW + 20),WBUT,HBUT);
     DrawRow(trForwardButton,NULL,40);
-    struct TextRow trPageResult = NewButton("Suma: ",WWCENTER - (WROW / 2) + (WBUT + 25),(iPosyLast + HROW + 20),WBUT,HBUT);
+    TextRow trPageResult = NewButton("Suma: ",WWCENTER - (WROW / 2) + (WBUT + 25),(iPosyLast + HROW + 20),WBUT,HBUT);
     DrawRow(trPageResult,NULL,20);
-    struct TextRow trAllResult = NewButton("Cala Suma: ",WWCENTER - (WROW / 2) + ((WBUT * 2)+35),(iPosyLast + HROW + 20),WBUT,HBUT);
+    TextRow trAllResult = NewButton("Cala Suma: ",WWCENTER - (WROW / 2) + ((WBUT * 2)+35),(iPosyLast + HROW + 20),WBUT,HBUT);
     DrawRow(trAllResult,NULL,20);
     DrawText("0/0", WWCENTER - (MeasureText("0/0",20) / 2), iPosyLast + HROW + 20 + HBUT + 10, 20, BLACK);
 
