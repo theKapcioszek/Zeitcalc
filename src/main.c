@@ -115,7 +115,7 @@ int main(int argc, char **argv){
 
     //   char *chpCombinedText;
     //   chpCombinedText = malloc(strlen(trTestMulti.date)+2+strlen(trTestMulti.text)+1);
-    //   strcpy(chpCombinedText,trTestMulti.date);
+    //   st
     //   strcat(chpCombinedText,": ");
     //   strcat(chpCombinedText,trTestMulti.text);
 
@@ -134,7 +134,22 @@ int main(int argc, char **argv){
     DrawRow(trPageResult,NULL,20);
     TextRow trAllResult = NewButton("Cala Suma: ",WWCENTER - (WROW / 2) + ((WBUT * 2)+35),(iPosyLast + HROW + 20),WBUT,HBUT);
     DrawRow(trAllResult,NULL,20);
-    DrawText("0/0", WWCENTER - (MeasureText("0/0",20) / 2), iPosyLast + HROW + 20 + HBUT + 10, 20, BLACK);
+
+    int iTemp1 = ROWS;
+    int iTemp2 = 1;
+
+    char chpMaxPages[sizeof(iTemp1)];
+    sprintf(chpMaxPages, "%d", iTemp1);
+    char chpCurPage[sizeof(iTemp2)];
+    sprintf(chpCurPage, "%d", iTemp2);
+
+    char *chpCombinedText;
+    chpCombinedText = malloc(strlen(chpMaxPages)+2+strlen(chpCurPage)+1);
+    strcpy(chpCombinedText,chpCurPage);
+    strcat(chpCombinedText,"/");
+    strcat(chpCombinedText,chpMaxPages);
+
+    DrawText(chpCombinedText, WWCENTER - (MeasureText(chpCombinedText,20) / 2), iPosyLast + HROW + 20 + HBUT + 10, 20, BLACK);
 
     int iPressedKey = GetCharPressed();
 
