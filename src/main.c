@@ -100,11 +100,41 @@ int main(int argc, char **argv){
     array[0][8]="test 9";
     array[0][9]="test 10";
 
-    int iPosyStart = (HWCENTER - (HROW / 2) - (HROW + 10)*6);
 
   while(!WindowShouldClose()){
 
-//INPUT SECTION
+    BeginDrawing();
+
+    ClearBackground(DARKBLUE);
+
+    int iPosyStart = (HWCENTER - (HROW / 2) - (HROW + 10)*6);
+    int iPosyLast = iPosyStart;
+    for (int i = 1; i <= 10; i++){
+
+      TextRow trTestMulti = NewTextRow(array[0][i-1],WWCENTER - (WROW / 2),(iPosyLast + HROW + 10));
+
+    //   char *chpCombinedText;
+    //   chpCombinedText = malloc(strlen(trTestMulti.date)+2+strlen(trTestMulti.text)+1);
+    //   strcpy(chpCombinedText,trTestMulti.date);
+    //   strcat(chpCombinedText,": ");
+    //   strcat(chpCombinedText,trTestMulti.text);
+
+      DrawRow(trTestMulti,trTestMulti.text,30);
+      iPosyLast = trTestMulti.posy;
+
+    //   free(chpCombinedText);
+
+    }
+
+    TextRow trBackButton = NewButton("<",WWCENTER - (WROW / 2) - (WBUT + 10),(iPosyLast + HROW + 20),WBUT,HBUT);
+    DrawRow(trBackButton,NULL,40);
+    TextRow trForwardButton = NewButton(">",WWCENTER - (WROW / 2),(iPosyLast + HROW + 20),WBUT,HBUT);
+    DrawRow(trForwardButton,NULL,40);
+    TextRow trPageResult = NewButton("Suma: ",WWCENTER - (WROW / 2) + (WBUT + 25),(iPosyLast + HROW + 20),WBUT,HBUT);
+    DrawRow(trPageResult,NULL,20);
+    TextRow trAllResult = NewButton("Cala Suma: ",WWCENTER - (WROW / 2) + ((WBUT * 2)+35),(iPosyLast + HROW + 20),WBUT,HBUT);
+    DrawRow(trAllResult,NULL,20);
+    DrawText("0/0", WWCENTER - (MeasureText("0/0",20) / 2), iPosyLast + HROW + 20 + HBUT + 10, 20, BLACK);
 
     int iPressedKey = GetCharPressed();
 
@@ -119,64 +149,13 @@ int main(int argc, char **argv){
       iPressedKey = GetCharPressed();
     }
 
+    // DrawText(chpTextBuffer, WWCENTER - (MeasureText(chpTextBuffer,30) / 2), iPosyStart,30,BLACK);
     array[0][0] = chpTextBuffer;
-
-
-//INPUT SECTION
-
-    BeginDrawing();
-
-    ClearBackground(DARKBLUE);
-
-    int iPosyLast = iPosyStart;
-
-    for (int i = 1; i <= 10; i++){
-
-      TextRow trTestMulti = NewTextRow(array[0][i-1],WWCENTER - (WROW / 2),(iPosyLast + HROW + 10));
-
-      //char *chpCombinedText;
-      //chpCombinedText = malloc(strlen(trTestMulti.date)+2+strlen(trTestMulti.text)+1);
-      //strcpy(chpCombinedText,trTestMulti.date);
-      //strcat(chpCombinedText,": ");
-      //strcat(chpCombinedText,trTestMulti.text);
-
-      DrawRow(trTestMulti,trTestMulti.text,30);
-      iPosyLast = trTestMulti.posy;
-
-      //free(chpCombinedText);
-
-    }
-
-    TextRow trBackButton = NewButton("<",WWCENTER - (WROW / 2) - (WBUT + 10),(iPosyLast + HROW + 20),WBUT,HBUT);
-    DrawRow(trBackButton,NULL,40);
-    TextRow trForwardButton = NewButton(">",WWCENTER - (WROW / 2),(iPosyLast + HROW + 20),WBUT,HBUT);
-    DrawRow(trForwardButton,NULL,40);
-    TextRow trPageResult = NewButton("Suma: ",WWCENTER - (WROW / 2) + (WBUT + 25),(iPosyLast + HROW + 20),WBUT,HBUT);
-    DrawRow(trPageResult,NULL,20);
-    TextRow trAllResult = NewButton("Cala Suma: ",WWCENTER - (WROW / 2) + ((WBUT * 2)+35),(iPosyLast + HROW + 20),WBUT,HBUT);
-    DrawRow(trAllResult,NULL,20);
-
-    char chpMaxPages[3];
-    char chpCurPage[2];
-    sprintf(chpMaxPages,"%d",ROWS);
-    sprintf(chpCurPage,"%d",1);
-
-
-    char *chpCombinedText;
-    chpCombinedText = malloc(strlen(chpMaxPages)+2+strlen(chpCurPage)+1);
-    strcpy(chpCombinedText,chpCurPage);
-    strcat(chpCombinedText,"/");
-    strcat(chpCombinedText,chpMaxPages);
-
-    DrawText(chpCombinedText, WWCENTER - (MeasureText(chpCombinedText,20) / 2), iPosyLast + HROW + 20 + HBUT + 10, 20, BLACK);
-    free(chpCombinedText);
-
-    DrawText(chpTextBuffer, WWCENTER - (MeasureText(chpTextBuffer,30) / 2), iPosyStart,30,BLACK);
 
     EndDrawing();
 
   }
-  free(array);
+
   CloseWindow();
 
   return 0;
