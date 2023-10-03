@@ -88,6 +88,7 @@ int main(int argc, char **argv){
   array = malloc(sizeof(*array) * ROWS);
   array = malloc(sizeof(char*[ROWS][COLS]));
 
+  int iIndexOfRow = 0;
 
     array[0][0]="test 1";
     array[0][1]="test 2";
@@ -151,6 +152,8 @@ int main(int argc, char **argv){
 
     DrawText(chpCombinedText, WWCENTER - (MeasureText(chpCombinedText,20) / 2), iPosyLast + HROW + 20 + HBUT + 10, 20, BLACK);
 
+    free(chpCombinedText);
+
     int iPressedKey = GetCharPressed();
 
     while(iPressedKey > 0){
@@ -164,8 +167,49 @@ int main(int argc, char **argv){
       iPressedKey = GetCharPressed();
     }
 
-    // DrawText(chpTextBuffer, WWCENTER - (MeasureText(chpTextBuffer,30) / 2), iPosyStart,30,BLACK);
-    array[0][0] = chpTextBuffer;
+    if(IsKeyPressed(KEY_BACKSPACE)){
+
+      iLetterCount--;
+      if(iLetterCount < 0){
+        iLetterCount = 0;
+      }
+      chpTextBuffer[iLetterCount] = '\0';
+
+    }
+
+    if(IsKeyPressed(KEY_DOWN)){
+      if(iIndexOfRow < 9){
+        array[0][iIndexOfRow] = malloc(sizeof(chpTextBuffer));
+        strcpy(array[0][iIndexOfRow],chpTextBuffer);
+
+        for (int i = 0; i < MAX_STRING_LENGTH + 1 ; i++) {
+          chpTextBuffer[i] = '\0';
+        }
+
+        iLetterCount = 0;
+        iIndexOfRow++;
+      }
+    }
+
+    if(IsKeyPressed(KEY_UP)){
+      if(iIndexOfRow > 0){
+        array[0][iIndexOfRow] = malloc(sizeof(chpTextBuffer));
+        strcpy(array[0][iIndexOfRow],chpTextBuffer);
+
+        for (int i = 0; i < MAX_STRING_LENGTH + 1 ; i++) {
+          chpTextBuffer[i] = '\0';
+        }
+
+        iLetterCount = 0;
+        iIndexOfRow--;
+      }
+    }
+
+    char chpIndexOfRow[sizeof(iIndexOfRow)];
+    sprintf(chpIndexOfRow, "%d", iIndexOfRow);
+
+    DrawText(chpIndexOfRow, WWCENTER - (MeasureText(chpIndexOfRow,30) / 2), iPosyStart,30,BLACK);
+    array[0][iIndexOfRow] = chpTextBuffer;
 
     EndDrawing();
 
