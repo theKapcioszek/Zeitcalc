@@ -91,39 +91,45 @@ int main(int argc, char **argv){
   int iIndexOfRow = 0;
   int iIndexOfPage = 0;
 
+  int iSumCurPage = 0;
+  int iSumLastPage = 0;
+  int iSumAll = 0;
+
   for(int i = 0; i < ROWS; i++){
     for(int j = 0;j < COLS; j++){
       array[i][j] = "";
     }
   }
 
-    array[0][0]="test 1";
-    array[0][1]="test 2";
-    array[0][2]="test 3";
-    array[0][3]="test 4";
-    array[0][4]="test 5";
-    array[0][5]="test 6";
-    array[0][6]="test 7";
-    array[0][7]="test 8";
-    array[0][8]="test 9";
-    array[0][9]="test 10";
+//    array[0][0]="test 1";
+//    array[0][1]="test 2";
+//    array[0][2]="test 3";
+//    array[0][3]="test 4";
+//    array[0][4]="test 5";
+//    array[0][5]="test 6";
+//    array[0][6]="test 7";
+//    array[0][7]="test 8";
+//    array[0][8]="test 9";
+//    array[0][9]="test 10";
 
 
-    array[1][0]="test 11";
-    array[1][1]="test 12";
-    array[1][2]="test 13";
-    array[1][3]="test 14";
-    array[1][4]="test 15";
-    array[1][5]="test 16";
-    array[1][6]="test 17";
-    array[1][7]="test 18";
-    array[1][8]="test 19";
-    array[1][9]="test 20";
+//    array[1][0]="test 11";
+//    array[1][1]="test 12";
+//    array[1][2]="test 13";
+//    array[1][3]="test 14";
+//    array[1][4]="test 15";
+//    array[1][5]="test 16";
+//    array[1][6]="test 17";
+//    array[1][7]="test 18";
+//    array[1][8]="test 19";
+//    array[1][9]="test 20";
 
 
   while(!WindowShouldClose()){
 
     BeginDrawing();
+
+// UI SECTION
 
     ClearBackground(DARKBLUE);
 
@@ -150,28 +156,49 @@ int main(int argc, char **argv){
     DrawRow(trBackButton,NULL,40);
     TextRow trForwardButton = NewButton(">",WWCENTER - (WROW / 2),(iPosyLast + HROW + 20),WBUT,HBUT);
     DrawRow(trForwardButton,NULL,40);
-    TextRow trPageResult = NewButton("Suma: ",WWCENTER - (WROW / 2) + (WBUT + 25),(iPosyLast + HROW + 20),WBUT,HBUT);
-    DrawRow(trPageResult,NULL,20);
-    TextRow trAllResult = NewButton("Cala Suma: ",WWCENTER - (WROW / 2) + ((WBUT * 2)+35),(iPosyLast + HROW + 20),WBUT,HBUT);
-    DrawRow(trAllResult,NULL,20);
 
-    int iTemp1 = ROWS;
-    int iTemp2 = iIndexOfPage + 1;
+    {
+      char chpSumCurPage[sizeof(iSumCurPage)];
+      sprintf(chpSumCurPage, "%d", iSumCurPage);
 
-    char chpMaxPages[sizeof(iTemp1)];
-    sprintf(chpMaxPages, "%d", iTemp1);
-    char chpCurPage[sizeof(iTemp2)];
-    sprintf(chpCurPage, "%d", iTemp2);
+      char *chpCombinedText;
+      chpCombinedText = malloc(strlen(chpSumCurPage)+strlen("Suma: "));
+      strcpy(chpCombinedText,"Suma: ");
+      strcat(chpCombinedText,chpSumCurPage);
 
-    char *chpCombinedText;
-    chpCombinedText = malloc(strlen(chpMaxPages)+2+strlen(chpCurPage)+1);
-    strcpy(chpCombinedText,chpCurPage);
-    strcat(chpCombinedText,"/");
-    strcat(chpCombinedText,chpMaxPages);
+      TextRow trPageResult = NewButton(chpCombinedText,WWCENTER - (WROW / 2) + (WBUT + 25),(iPosyLast + HROW + 20),WBUT,HBUT);
+      DrawRow(trPageResult,NULL,20);
 
-    DrawText(chpCombinedText, WWCENTER - (MeasureText(chpCombinedText,20) / 2), iPosyLast + HROW + 20 + HBUT + 10, 20, BLACK);
+      free(chpCombinedText);
+    }
+
+    {
+      TextRow trAllResult = NewButton("Cala Suma: ",WWCENTER - (WROW / 2) + ((WBUT * 2)+35),(iPosyLast + HROW + 20),WBUT,HBUT);
+      DrawRow(trAllResult,NULL,20);
+    }
+
+    {
+      int iTemp1 = ROWS;
+      int iTemp2 = iIndexOfPage + 1;
+
+      char chpMaxPages[sizeof(iTemp1)];
+      sprintf(chpMaxPages, "%d", iTemp1);
+      char chpCurPage[sizeof(iTemp2)];
+      sprintf(chpCurPage, "%d", iTemp2);
+
+      char *chpCombinedText;
+      chpCombinedText = malloc(strlen(chpMaxPages)+2+strlen(chpCurPage)+1);
+      strcpy(chpCombinedText,chpCurPage);
+      strcat(chpCombinedText,"/");
+      strcat(chpCombinedText,chpMaxPages);
+
+      DrawText(chpCombinedText, WWCENTER - (MeasureText(chpCombinedText,20) / 2), iPosyLast + HROW + 20 + HBUT + 10, 20, BLACK);
 
     free(chpCombinedText);
+    }
+// UI SECTION
+
+// INPUT SECTION
 
     int iPressedKey = GetCharPressed();
 
@@ -257,6 +284,27 @@ int main(int argc, char **argv){
 
     DrawText(chpIndexOfRow, WWCENTER - (MeasureText(chpIndexOfRow,30) / 2), iPosyStart,30,BLACK);
     array[iIndexOfPage][iIndexOfRow] = chpTextBuffer;
+
+// INPUT SECTION
+
+// LOGIC SECTION
+
+    iSumCurPage = 0;
+
+    for(int i = 0; i <= 9; i++){
+
+      char *chpParseBuffer = array[iIndexOfPage][i];
+
+      if(strchr(chpParseBuffer,':') != NULL){
+        // TODO
+      }
+      else{
+        iSumCurPage = iSumCurPage + atoi(chpParseBuffer);
+      }
+
+    }
+
+// LOGIC SECTION
 
     EndDrawing();
 
