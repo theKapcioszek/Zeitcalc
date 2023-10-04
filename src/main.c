@@ -89,6 +89,13 @@ int main(int argc, char **argv){
   array = malloc(sizeof(char*[ROWS][COLS]));
 
   int iIndexOfRow = 0;
+  int iIndexOfPage = 0;
+
+  for(int i = 0; i < ROWS; i++){
+    for(int j = 0;j < COLS; j++){
+      array[i][j] = "";
+    }
+  }
 
     array[0][0]="test 1";
     array[0][1]="test 2";
@@ -102,6 +109,18 @@ int main(int argc, char **argv){
     array[0][9]="test 10";
 
 
+    array[1][0]="test 11";
+    array[1][1]="test 12";
+    array[1][2]="test 13";
+    array[1][3]="test 14";
+    array[1][4]="test 15";
+    array[1][5]="test 16";
+    array[1][6]="test 17";
+    array[1][7]="test 18";
+    array[1][8]="test 19";
+    array[1][9]="test 20";
+
+
   while(!WindowShouldClose()){
 
     BeginDrawing();
@@ -112,7 +131,7 @@ int main(int argc, char **argv){
     int iPosyLast = iPosyStart;
     for (int i = 1; i <= 10; i++){
 
-      TextRow trTestMulti = NewTextRow(array[0][i-1],WWCENTER - (WROW / 2),(iPosyLast + HROW + 10));
+      TextRow trTestMulti = NewTextRow(array[iIndexOfPage][i-1],WWCENTER - (WROW / 2),(iPosyLast + HROW + 10));
 
     //   char *chpCombinedText;
     //   chpCombinedText = malloc(strlen(trTestMulti.date)+2+strlen(trTestMulti.text)+1);
@@ -137,7 +156,7 @@ int main(int argc, char **argv){
     DrawRow(trAllResult,NULL,20);
 
     int iTemp1 = ROWS;
-    int iTemp2 = 1;
+    int iTemp2 = iIndexOfPage + 1;
 
     char chpMaxPages[sizeof(iTemp1)];
     sprintf(chpMaxPages, "%d", iTemp1);
@@ -179,8 +198,8 @@ int main(int argc, char **argv){
 
     if(IsKeyPressed(KEY_DOWN)){
       if(iIndexOfRow < 9){
-        array[0][iIndexOfRow] = malloc(sizeof(chpTextBuffer));
-        strcpy(array[0][iIndexOfRow],chpTextBuffer);
+        array[iIndexOfPage][iIndexOfRow] = malloc(sizeof(chpTextBuffer));
+        strcpy(array[iIndexOfPage][iIndexOfRow],chpTextBuffer);
 
         for (int i = 0; i < MAX_STRING_LENGTH + 1 ; i++) {
           chpTextBuffer[i] = '\0';
@@ -193,8 +212,8 @@ int main(int argc, char **argv){
 
     if(IsKeyPressed(KEY_UP)){
       if(iIndexOfRow > 0){
-        array[0][iIndexOfRow] = malloc(sizeof(chpTextBuffer));
-        strcpy(array[0][iIndexOfRow],chpTextBuffer);
+        array[iIndexOfPage][iIndexOfRow] = malloc(sizeof(chpTextBuffer));
+        strcpy(array[iIndexOfPage][iIndexOfRow],chpTextBuffer);
 
         for (int i = 0; i < MAX_STRING_LENGTH + 1 ; i++) {
           chpTextBuffer[i] = '\0';
@@ -205,16 +224,45 @@ int main(int argc, char **argv){
       }
     }
 
+    if(IsKeyPressed(KEY_LEFT)){
+      if(iIndexOfPage > 0){
+        array[iIndexOfPage][iIndexOfRow] = malloc(sizeof(chpTextBuffer));
+        strcpy(array[iIndexOfPage][iIndexOfRow],chpTextBuffer);
+
+        for (int i = 0; i < MAX_STRING_LENGTH + 1 ; i++) {
+          chpTextBuffer[i] = '\0';
+        }
+
+        iLetterCount = 0;
+        iIndexOfPage--;
+      }
+    }
+
+    if(IsKeyPressed(KEY_RIGHT)){
+      if(iIndexOfPage < ROWS-1){
+        array[iIndexOfPage][iIndexOfRow] = malloc(sizeof(chpTextBuffer));
+        strcpy(array[iIndexOfPage][iIndexOfRow],chpTextBuffer);
+
+        for (int i = 0; i < MAX_STRING_LENGTH + 1 ; i++) {
+          chpTextBuffer[i] = '\0';
+        }
+
+        iLetterCount = 0;
+        iIndexOfPage++;
+      }
+    }
+
     char chpIndexOfRow[sizeof(iIndexOfRow)];
     sprintf(chpIndexOfRow, "%d", iIndexOfRow);
 
     DrawText(chpIndexOfRow, WWCENTER - (MeasureText(chpIndexOfRow,30) / 2), iPosyStart,30,BLACK);
-    array[0][iIndexOfRow] = chpTextBuffer;
+    array[iIndexOfPage][iIndexOfRow] = chpTextBuffer;
 
     EndDrawing();
 
   }
 
+  free(array);
   CloseWindow();
 
   return 0;
