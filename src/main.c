@@ -91,11 +91,24 @@ int iSumAll = 0;
 
 int iPosyStart = (HWCENTER - (HROW / 2) - (HROW + 10)*6);
 
- char *chpIndexOfRow;
+char *chpIndexOfRow;
 
 // GLOBALS
 
 // LOGIC SECTION
+void ResetInput(){
+
+  array[iIndexOfPage][iIndexOfRow] = malloc(sizeof(chpTextBuffer));
+  strcpy(array[iIndexOfPage][iIndexOfRow],chpTextBuffer);
+
+  for (int i = 0; i < MAX_STRING_LENGTH + 1 ; i++) {
+    chpTextBuffer[i] = '\0';
+  }
+
+  iLetterCount = 0;
+
+  return;
+}
 
 void CalculateSumCurPage(){
 
@@ -231,7 +244,7 @@ int main(int argc, char **argv){
 
       DrawText(chpCombinedText, WWCENTER - (MeasureText(chpCombinedText,20) / 2), iPosyLast + HROW + 20 + HBUT + 10, 20, BLACK);
 
-    free(chpCombinedText);
+      free(chpCombinedText);
     }
 // UI SECTION
 
@@ -264,14 +277,9 @@ int main(int argc, char **argv){
 
     if(IsKeyPressed(KEY_DOWN)){
       if(iIndexOfRow < 9){
-        array[iIndexOfPage][iIndexOfRow] = malloc(sizeof(chpTextBuffer));
-        strcpy(array[iIndexOfPage][iIndexOfRow],chpTextBuffer);
 
-        for (int i = 0; i < MAX_STRING_LENGTH + 1 ; i++) {
-          chpTextBuffer[i] = '\0';
-        }
+        ResetInput();
 
-        iLetterCount = 0;
         iIndexOfRow++;
         CalculateSumCurPage();
       }
@@ -279,14 +287,9 @@ int main(int argc, char **argv){
 
     if(IsKeyPressed(KEY_UP)){
       if(iIndexOfRow > 0){
-        array[iIndexOfPage][iIndexOfRow] = malloc(sizeof(chpTextBuffer));
-        strcpy(array[iIndexOfPage][iIndexOfRow],chpTextBuffer);
 
-        for (int i = 0; i < MAX_STRING_LENGTH + 1 ; i++) {
-          chpTextBuffer[i] = '\0';
-        }
+        ResetInput();
 
-        iLetterCount = 0;
         iIndexOfRow--;
         CalculateSumCurPage();
       }
@@ -294,14 +297,9 @@ int main(int argc, char **argv){
 
     if(IsKeyPressed(KEY_LEFT)){
       if(iIndexOfPage > 0){
-        array[iIndexOfPage][iIndexOfRow] = malloc(sizeof(chpTextBuffer));
-        strcpy(array[iIndexOfPage][iIndexOfRow],chpTextBuffer);
 
-        for (int i = 0; i < MAX_STRING_LENGTH + 1 ; i++) {
-          chpTextBuffer[i] = '\0';
-        }
+        ResetInput();
 
-        iLetterCount = 0;
         iIndexOfPage--;
         CalculateSumCurPage();
       }
@@ -309,14 +307,9 @@ int main(int argc, char **argv){
 
     if(IsKeyPressed(KEY_RIGHT)){
       if(iIndexOfPage < ROWS-1){
-        array[iIndexOfPage][iIndexOfRow] = malloc(sizeof(chpTextBuffer));
-        strcpy(array[iIndexOfPage][iIndexOfRow],chpTextBuffer);
 
-        for (int i = 0; i < MAX_STRING_LENGTH + 1 ; i++) {
-          chpTextBuffer[i] = '\0';
-        }
+        ResetInput();
 
-        iLetterCount = 0;
         iIndexOfPage++;
         CalculateSumCurPage();
       }
