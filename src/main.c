@@ -96,6 +96,12 @@ char *chpIndexOfRow;
 // GLOBALS
 
 // LOGIC SECTION
+
+void slice(const char* str, char* result, size_t start, size_t end)
+{
+    strncpy(result, str + start, end - start);
+} // https://stackoverflow.com/questions/26620388/c-substrings-c-string-slicing
+
 void ResetInput(){
 
   array[iIndexOfPage][iIndexOfRow] = malloc(sizeof(chpTextBuffer));
@@ -120,9 +126,17 @@ void CalculateSumCurPage(){
       char *chpParseBuffer = array[iIndexOfPage][i];
 
       if(strchr(chpParseBuffer,':') != NULL){
-        // TODO
-        char* test = strchr(chpParseBuffer,':');
-        DrawText(test, WWCENTER - (MeasureText(chpIndexOfRow,20) / 2) - 30, iPosyStart,20,BLACK);
+
+        char* chpWhereColon = strchr(chpParseBuffer,':');
+        int iIndexOfColon = (int)(chpWhereColon - chpParseBuffer);
+
+        char chpResult1[iIndexOfColon];
+        slice(chpParseBuffer,chpResult1,0,iIndexOfColon);
+
+        char chpResult2[(strlen(chpParseBuffer)) - iIndexOfColon];
+        slice(chpParseBuffer,chpResult2,iIndexOfColon + 1,strlen(chpParseBuffer));
+
+        iSumCurPage = iSumCurPage + (atoi(chpResult1)*60) + atoi(chpResult2);
       }
       else{
         iSumCurPage = iSumCurPage + atoi(chpParseBuffer);
