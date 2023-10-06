@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <dirent.h>
 #include <raylib.h>
 
 #define WWINDOW 1280
@@ -147,7 +148,43 @@ void CalculateSumCurPage(){
   return;
 }
 
+void CalculateSumLastPage(){
 
+  iSumLastPage = iSumCurPage;
+
+  return;
+}
+
+void CalculateSumAll(bool delete){
+
+  if(delete == true){
+    iSumAll = iSumAll - iSumLastPage;
+  }
+  else{
+    iSumAll = iSumAll + iSumLastPage;
+  }
+  if(iIndexOfPage == 0){
+    iSumAll = 0;
+  }
+
+  return;
+}
+
+void SaveProgress(){
+
+  FILE *fpFile = fopen("cache.txt","w");
+
+  if(fpFile != NULL){
+
+      char chpSaveProgress[sizeof(iSumAll)];
+      sprintf(chpSaveProgress, "%d", iSumAll);
+
+      fprintf(fpFile, chpSaveProgress,0);
+
+      fclose(fpFile);
+
+  }
+}
 // LOGIC SECTION
 
 int main(int argc, char **argv){
@@ -202,6 +239,14 @@ int main(int argc, char **argv){
 
       TextRow trTestMulti = NewTextRow(array[iIndexOfPage][i-1],WWCENTER - (WROW / 2),(iPosyLast + HROW + 10));
 
+      if(iIndexOfRow == i - 1){
+        // DrawCircle(WWCENTER - (WROW / 2) - 50, (iPosyLast + HROW + (HROW/2) + 10), 10.0, BLACK);
+
+        Vector2 v3 = {WWCENTER - (HROW / 2) - 250, (iPosyLast + HROW + (HROW / 2) + 10)};
+        Vector2 v1 = {WWCENTER - (HROW / 2) - 280, (iPosyLast + HROW + ((HROW/4)) + 2)};
+        Vector2 v2 = {WWCENTER - (HROW / 2) - 280, (iPosyLast + HROW + (HROW) + 10)};
+        DrawTriangle(v1, v2, v3, BLACK);
+      }
     //   char *chpCombinedText;
     //   chpCombinedText = malloc(strlen(trTestMulti.date)+2+strlen(trTestMulti.text)+1);
     //   st
@@ -237,8 +282,19 @@ int main(int argc, char **argv){
     }
 
     {
-      TextRow trAllResult = NewButton("Cala Suma: ",WWCENTER - (WROW / 2) + ((WBUT * 2)+35),(iPosyLast + HROW + 20),WBUT,HBUT);
+      char chpSumAll[sizeof(iSumAll)];
+      sprintf(chpSumAll, "%d", iSumAll);
+
+      char *chpCombinedText;
+      chpCombinedText = malloc(strlen("Cala Suma: ")+strlen(chpSumAll)+strlen(" min"));
+      strcpy(chpCombinedText,"Cala Suma: ");
+      strcat(chpCombinedText,chpSumAll);
+      strcat(chpCombinedText," min");
+
+      TextRow trAllResult = NewButton(chpCombinedText,WWCENTER - (WROW / 2) + ((WBUT * 2)+35),(iPosyLast + HROW + 20),WBUT,HBUT);
       DrawRow(trAllResult,NULL,20);
+
+      free(chpCombinedText);
     }
 
     {
@@ -315,6 +371,7 @@ int main(int argc, char **argv){
         ResetInput();
 
         iIndexOfPage--;
+        CalculateSumAll(true);
         CalculateSumCurPage();
       }
     }
@@ -325,6 +382,8 @@ int main(int argc, char **argv){
         ResetInput();
 
         iIndexOfPage++;
+        CalculateSumLastPage();
+        CalculateSumAll(false);
         CalculateSumCurPage();
       }
     }
@@ -342,6 +401,8 @@ int main(int argc, char **argv){
   }
 
   free(array);
+
+  SaveProgress();
   CloseWindow();
 
   return 0;
