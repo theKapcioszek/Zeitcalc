@@ -190,7 +190,7 @@ void SaveProgress(){
 int main(int argc, char **argv){
 
 
-  InitWindow(WWINDOW,HWINDOW,"Januszex");
+  InitWindow(WWINDOW,HWINDOW,"Zeitcalc");
   SetTargetFPS(60);
 
   array = malloc(sizeof(*array) * ROWS);
