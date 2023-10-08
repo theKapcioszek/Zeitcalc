@@ -9,7 +9,7 @@ clang -ggdb -DPLATFORM_DESKTOP -I./external/glfw/include/ -c rmodels.c -o  ../bu
 clang -ggdb -DPLATFORM_DESKTOP -I./external/glfw/include/ -c utils.c -o  ../build/utils.o
 clang -ggdb -DPLATFORM_DESKTOP -I./external/glfw/include/ -c rglfw.c -o  ../build/rglfw.o
 clang -ggdb -DPLATFORM_DESKTOP -I./external/glfw/include/ -c rtext.c -o  ../build/rtext.o 
-cd ../../build/
+cd ../build/
 ar -crs libraylib.a rcore.o raudio.o rshapes.o rtextures.o rmodels.o utils.o rglfw.o rtext.o
 cd ../../../
-clang -I./raylib/raylib-4.5.0/src/ -L./raylib/raylib-4.5.0/build/ -l:libraylib.a -o build/zeitcalc src/main.c -v
+clang -o build/zeitcalc src/main.c -I./raylib/raylib-4.5.0/src/ -L./raylib/raylib-4.5.0/build/ -l:libraylib.a -v
