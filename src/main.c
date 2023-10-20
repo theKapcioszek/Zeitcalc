@@ -185,6 +185,25 @@ void SaveProgress(){
 
   }
 }
+
+void LoadProgress(){
+
+  FILE *fpFile = fopen("cache.txt","r");
+
+  if(fpFile != NULL){
+
+      int iLoadProgress = 0;
+      //char chpLoadProgress[sizeof(int)];
+      fscanf(fpFile, "%d", &iLoadProgress);
+
+      //fprintf(fpFile, chpLoadProgress,0);
+
+      fclose(fpFile);
+
+      iSumAll = iLoadProgress;
+
+  }
+}
 // LOGIC SECTION
 
 int main(int argc, char **argv){
@@ -192,6 +211,8 @@ int main(int argc, char **argv){
 
   InitWindow(WWINDOW,HWINDOW,"Zeitcalc");
   SetTargetFPS(60);
+
+  LoadProgress();
 
   array = malloc(sizeof(*array) * ROWS);
   array = malloc(sizeof(char*[ROWS][COLS]));
