@@ -282,8 +282,8 @@ int main(int argc, char **argv){
 
     }
 
-    TextRow trBackButton = NewButton("<",WWCENTER - (WROW / 2) - (WBUT + 10),(iPosyLast + HROW + 20),WBUT,HBUT);
-    DrawRow(trBackButton,NULL,40);
+    //TextRow trBackButton = NewButton("<",WWCENTER - (WROW / 2) - (WBUT + 10),(iPosyLast + HROW + 20),WBUT,HBUT);
+    //DrawRow(trBackButton,NULL,40);
     //TextRow trForwardButton = NewButton(">",WWCENTER - (WROW / 2),(iPosyLast + HROW + 20),WBUT,HBUT);
     //DrawRow(trForwardButton,NULL,40);
 
@@ -449,7 +449,7 @@ int main(int argc, char **argv){
     chpIndexOfRow = malloc(sizeof(iIndexOfRow));
     sprintf(chpIndexOfRow, "%d", iIndexOfRow);
 
-    DrawText(chpIndexOfRow, WWCENTER - (MeasureText(chpIndexOfRow,30) / 2), iPosyStart,30,BLACK);
+    //DrawText(chpIndexOfRow, WWCENTER - (MeasureText(chpIndexOfRow,30) / 2), iPosyStart,30,BLACK);
     array[iIndexOfPage][iIndexOfRow] = chpTextBuffer;
 
 // INPUT SECTION
