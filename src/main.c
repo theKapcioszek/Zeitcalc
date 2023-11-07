@@ -89,6 +89,7 @@ int iIndexOfPage = 0;
 int iSumCurPage = 0;
 int iSumLastPage = 0;
 int iSumAll = 0;
+int iSumAll2 = 0;
 
 int iPosyStart = (HWCENTER - (HROW / 2) - (HROW + 10)*6);
 
@@ -283,33 +284,63 @@ int main(int argc, char **argv){
 
     TextRow trBackButton = NewButton("<",WWCENTER - (WROW / 2) - (WBUT + 10),(iPosyLast + HROW + 20),WBUT,HBUT);
     DrawRow(trBackButton,NULL,40);
-    TextRow trForwardButton = NewButton(">",WWCENTER - (WROW / 2),(iPosyLast + HROW + 20),WBUT,HBUT);
-    DrawRow(trForwardButton,NULL,40);
+    //TextRow trForwardButton = NewButton(">",WWCENTER - (WROW / 2),(iPosyLast + HROW + 20),WBUT,HBUT);
+    //DrawRow(trForwardButton,NULL,40);
+
 
     {
-      char chpSumCurPage[sizeof(iSumCurPage)];
-      sprintf(chpSumCurPage, "%d", iSumCurPage);
+      char chpSumAll2[sizeof(iSumAll2/60)];
+      char chpSumAll2Min[sizeof(iSumAll2%60)];
+      sprintf(chpSumAll2, "%d", iSumAll2/60);
+      sprintf(chpSumAll2Min, "%d", iSumAll2%60);
 
       char *chpCombinedText;
-      chpCombinedText = malloc(strlen("Suma: ")+strlen(chpSumCurPage)+strlen(" min"));
+      chpCombinedText = malloc(strlen("Cala suma: ")+strlen(chpSumAll2)+strlen(" h ")+strlen(chpSumAll2Min)+strlen(" min"));
+      strcpy(chpCombinedText,"Cala suma: ");
+      strcat(chpCombinedText,chpSumAll2);
+      strcat(chpCombinedText," h ");
+      strcat(chpCombinedText, chpSumAll2Min);
+      strcat(chpCombinedText, " min");
+
+
+      TextRow trPageResult = NewButton(chpCombinedText,WWCENTER - (WROW / 2),(iPosyLast + HROW + 20),WBUT,HBUT);
+      DrawRow(trPageResult,NULL,20);
+
+      free(chpCombinedText);
+   }
+
+    {
+      char chpSumCurPage[sizeof(iSumCurPage/60)];
+      char chpSumCurPageMin[sizeof(iSumCurPage%60)];
+      sprintf(chpSumCurPage, "%d", iSumCurPage/60);
+      sprintf(chpSumCurPageMin, "%d", iSumCurPage%60);
+
+      char *chpCombinedText;
+      chpCombinedText = malloc(strlen("Suma: ")+strlen(chpSumCurPage)+strlen(" h ")+strlen(chpSumCurPageMin)+strlen(" min"));
       strcpy(chpCombinedText,"Suma: ");
       strcat(chpCombinedText,chpSumCurPage);
+      strcat(chpCombinedText," h ");
+      strcat(chpCombinedText,chpSumCurPageMin);
       strcat(chpCombinedText," min");
 
       TextRow trPageResult = NewButton(chpCombinedText,WWCENTER - (WROW / 2) + (WBUT + 25),(iPosyLast + HROW + 20),WBUT,HBUT);
       DrawRow(trPageResult,NULL,20);
 
       free(chpCombinedText);
-    }
+   }
 
     {
-      char chpSumAll[sizeof(iSumAll)];
-      sprintf(chpSumAll, "%d", iSumAll);
+      char chpSumAll[sizeof(iSumAll/60)];
+      char chpSumAllMin[sizeof(iSumAll%60)];
+      sprintf(chpSumAll, "%d", iSumAll/60);
+      sprintf(chpSumAllMin, "%d", iSumAll%60);
 
       char *chpCombinedText;
-      chpCombinedText = malloc(strlen("Cala Suma: ")+strlen(chpSumAll)+strlen(" min"));
-      strcpy(chpCombinedText,"Cala Suma: ");
+      chpCombinedText = malloc(strlen("Poprz. str. ")+strlen(chpSumAll)+strlen(" h ")+strlen(chpSumAllMin)+strlen(" min"));
+      strcpy(chpCombinedText,"Poprz. str. ");
       strcat(chpCombinedText,chpSumAll);
+      strcat(chpCombinedText," h ");
+      strcat(chpCombinedText,chpSumAllMin);
       strcat(chpCombinedText," min");
 
       TextRow trAllResult = NewButton(chpCombinedText,WWCENTER - (WROW / 2) + ((WBUT * 2)+35),(iPosyLast + HROW + 20),WBUT,HBUT);
@@ -350,6 +381,7 @@ int main(int argc, char **argv){
         chpTextBuffer[iLetterCount+1] = '\0';
         iLetterCount++;
         CalculateSumCurPage();
+        iSumAll2 = iSumCurPage + iSumAll;
 
       }
       iPressedKey = GetCharPressed();
@@ -363,6 +395,7 @@ int main(int argc, char **argv){
       }
       chpTextBuffer[iLetterCount] = '\0';
       CalculateSumCurPage();
+      iSumAll2 = iSumCurPage + iSumAll;
 
     }
 
@@ -373,6 +406,7 @@ int main(int argc, char **argv){
 
         iIndexOfRow++;
         CalculateSumCurPage();
+        iSumAll2 = iSumCurPage + iSumAll;
       }
     }
 
@@ -383,6 +417,7 @@ int main(int argc, char **argv){
 
         iIndexOfRow--;
         CalculateSumCurPage();
+        iSumAll2 = iSumCurPage + iSumAll;
       }
     }
 
@@ -394,6 +429,7 @@ int main(int argc, char **argv){
         iIndexOfPage--;
         CalculateSumAll(true);
         CalculateSumCurPage();
+        iSumAll2 = iSumCurPage + iSumAll;
       }
     }
 
@@ -406,6 +442,7 @@ int main(int argc, char **argv){
         CalculateSumLastPage();
         CalculateSumAll(false);
         CalculateSumCurPage();
+        iSumAll2 = iSumCurPage + iSumAll;
       }
     }
 
