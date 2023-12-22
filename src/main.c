@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
-#include <raylib.h>
+#include "raylib.h"
 
 #define WWINDOW 1280
 #define HWINDOW 720
@@ -76,6 +76,14 @@ void DrawRow(TextRow row, char* text,int fontSize){
 
   return;
 }
+
+// TESTING
+
+const char* test = "--test";
+
+// TESTING
+
+
 // GLOBALS
 
 char chpTextBuffer[MAX_STRING_LENGTH + 1] = "\0";
@@ -207,13 +215,11 @@ void LoadProgress(){
 }
 // LOGIC SECTION
 
-int main(int argc, char **argv){
+int main(int argc, char *argv[]){
 
 
   InitWindow(WWINDOW,HWINDOW,"Zeitcalc");
   SetTargetFPS(60);
-
-  LoadProgress();
 
   array = malloc(sizeof(*array) * ROWS);
   array = malloc(sizeof(char*[ROWS][COLS]));
@@ -223,6 +229,24 @@ int main(int argc, char **argv){
       array[i][j] = "";
     }
   }
+
+ if(argc > 1){
+   printf("\n\nSEEEEEEEEEEEEEEEEEEEEEEEEEEEEX\n\n");
+    if(argv[1] != test){
+      for(int i = 0;i < argc - 2;i++){
+        if(i > 9){
+          break;
+        }
+        array[i][0] = argv[i+2];
+        printf("\n\n------%s--------\n\n",array[i][0]);
+      }
+
+      CalculateSumCurPage();
+      printf("[+] --- iSumCurPage = %d",iSumCurPage);
+      return 3;
+    }
+  }
+ LoadProgress();
 
 //    array[0][0]="test 1";
 //    array[0][1]="test 2";
