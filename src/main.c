@@ -77,13 +77,6 @@ void DrawRow(TextRow row, char* text,int fontSize){
   return;
 }
 
-// TESTING
-
-const char* test = "--test";
-
-// TESTING
-
-
 // GLOBALS
 
 char chpTextBuffer[MAX_STRING_LENGTH + 1] = "\0";
@@ -230,22 +223,6 @@ int main(int argc, char *argv[]){
     }
   }
 
- if(argc > 1){
-   printf("\n\nSEEEEEEEEEEEEEEEEEEEEEEEEEEEEX\n\n");
-    if(argv[1] != test){
-      for(int i = 0;i < argc - 2;i++){
-        if(i > 9){
-          break;
-        }
-        array[i][0] = argv[i+2];
-        printf("\n\n------%s--------\n\n",array[i][0]);
-      }
-
-      CalculateSumCurPage();
-      printf("[+] --- iSumCurPage = %d",iSumCurPage);
-      return 3;
-    }
-  }
  LoadProgress();
 
 //    array[0][0]="test 1";
